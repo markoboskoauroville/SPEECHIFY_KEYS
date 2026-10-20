@@ -1,8 +1,10 @@
-/* Speechify Keys v1 (20.10.2026): keyboard control of the Speechify Chrome extension on Marko's own pages.
+/* Speechify Keys v2 (20.10.2026): keyboard control of the Speechify Chrome extension on Marko's own pages.
  *
  *   Space    play / pause
  *   ← / →    skip one sentence back / forward (Speechify's page player has no 10-second skip)
  *   Escape   turn Speechify off on this page
+ *   a click  on text: Speechify reads from the start of that sentence (v2; links, buttons, fields, double clicks
+ *            and drag-selections stay as they were)
  *
  * Load it with one line, anywhere in the page:
  *   <script src="https://speechifykeys.pages.dev/speechify-keys.js" defer></script>
@@ -82,6 +84,59 @@
     if (!(t instanceof Element)) return false;
     return t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
   }
+
+  // v2, a click reads from there. Speechify reads a selection, so the clicked sentence to the end of the page is
+  // selected, play is pressed, and the selection is let go once it reads.
+  const wait = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  const NOT_TEXT = "a,button,input,textarea,select,label,summary,video,audio,[contenteditable],[role=button],[onclick]";
+  let pending = 0;
+
+  // the start of the clicked sentence, looked for back to the start of its block, across bold, links and the like
+  const BLOCK = "p,li,td,th,dd,dt,h1,h2,h3,h4,h5,h6,blockquote,figcaption,pre,div,section,article,main,body";
+  function sentenceStart(node, offset) {
+    const block = node.parentElement.closest(BLOCK) || document.body;
+    const walk = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    for (let n = walk.nextNode(); n; n = walk.nextNode()) { nodes.push(n); if (n === node) break; }
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      const n = nodes[i], upto = n === node ? offset : n.textContent.length;
+      const m = n.textContent.slice(0, upto).match(/[\s\S]*[.!?…](\s+)/);
+      if (m) return [n, m[0].length];
+    }
+    return [nodes[0] || node, 0];
+  }
+
+  async function readFrom(x, y) {
+    const root = player();
+    if (!root) return;
+    const pos = document.caretPositionFromPoint ? document.caretPositionFromPoint(x, y) : null;
+    const node = pos ? pos.offsetNode : document.caretRangeFromPoint(x, y)?.startContainer;
+    const offset = pos ? pos.offset : document.caretRangeFromPoint(x, y)?.startOffset;
+    if (!node || node.nodeType !== Node.TEXT_NODE || !node.textContent.trim()) return;
+    if (find(root, ["pause"])) { await press(root, ["pause"]); await wait(300); }
+    const end = document.querySelector("main") || document.body;
+    const r = document.createRange();
+    r.setStart(...sentenceStart(node, offset));
+    r.setEndAfter(end.lastChild || end);
+    const sel = getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+    await wait(300);
+    await press(root, ["play"]);
+    await wait(1500);
+    if (sel.rangeCount && sel.getRangeAt(0).startContainer === r.startContainer) sel.removeAllRanges();
+  }
+
+  window.addEventListener("click", (e) => {
+    if (e.button !== 0 || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    const t = e.composedPath ? e.composedPath()[0] : e.target;
+    if (!(t instanceof Element) || t.closest(NOT_TEXT) || t.closest("[id^=speechify]")) return;
+    if (!getSelection().isCollapsed) return;            // a drag that selected text
+    if (e.detail > 1) { clearTimeout(pending); return; } // a double click selects a word, as always
+    const x = e.clientX, y = e.clientY;
+    clearTimeout(pending);
+    pending = setTimeout(() => readFrom(x, y), 280);
+  });
 
   window.addEventListener(
     "keydown",

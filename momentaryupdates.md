@@ -11,3 +11,9 @@ Every request, word for word, before any code.
 > I started Hammerspoon
 
 > I'm mostly using Speechify for my own web pages. For this Elevate Media page, maybe you can build a script inside the page to control Speechify itself
+
+> is it possible to fix the Speechify extension so that whenever I click with my mouse, the Speechify starts to read from there
+
+> Speechify is reading selected text, not where my mouse is. I cannot be in the two places at the same time. Mouse in the paragraph I want to read and playing at the same time. That's not possible, so we need to do this kind of register clicks and then jump to that position by any tricks which Speechify can do
+
+> please adjust Speechify settings in Chrome browser so they act as I need them

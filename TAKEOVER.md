@@ -4,6 +4,11 @@
 the demo page (Speechify 14.12, sound on BlackHole): Space played and paused without scrolling, → moved forward a
 sentence twice, ← moved back one, Escape turned Speechify off for the session.
 
+**v2 (20.10.2026):** a click on text makes Speechify read from the start of that sentence. Tested with real clicks on
+markoboskopec.pages.dev: paused, it started at the clicked sentence; while reading, it jumped to the clicked one; Space
+still pauses. Marko: *"Speechify is reading selected text, not where my mouse is ... register clicks and then jump to
+that position by any tricks"*.
+
 **History:** asked first as a Swift helper with global hotkeys; Marko then proposed a script inside his own pages,
 which needs no permissions and is active only where Speechify is open. On the same day he made it a default for
 every page he builds.

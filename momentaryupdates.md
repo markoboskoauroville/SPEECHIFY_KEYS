@@ -17,3 +17,5 @@ Every request, word for word, before any code.
 > Speechify is reading selected text, not where my mouse is. I cannot be in the two places at the same time. Mouse in the paragraph I want to read and playing at the same time. That's not possible, so we need to do this kind of register clicks and then jump to that position by any tricks which Speechify can do
 
 > please adjust Speechify settings in Chrome browser so they act as I need them
+
+> Speechify works great. Please right hand overs MDS push everything to the GitHub and close all the sessions. Clean up the chat until the future notice. Be ready for a new chat

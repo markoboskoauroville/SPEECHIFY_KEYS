@@ -19,3 +19,9 @@ Every request, word for word, before any code.
 > please adjust Speechify settings in Chrome browser so they act as I need them
 
 > Speechify works great. Please right hand overs MDS push everything to the GitHub and close all the sessions. Clean up the chat until the future notice. Be ready for a new chat
+
+## 29.10.2026 (a GitHub deploy workflow)
+
+> Yes, any repository which doesn't have a deploy workflow should be added, yes.
+
+**Status:** done 29.10.2026: .github/workflows/deploy-pages.yml publishes public to speechifykeys.pages.dev on every push to main.

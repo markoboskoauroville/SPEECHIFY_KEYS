@@ -7,7 +7,7 @@
  *            and drag-selections stay as they were)
  *
  * Load it with one line, anywhere in the page:
- *   <script src="https://speechifykeys.pages.dev/speechify-keys.js" defer></script>
+ *   <script src="https://speechifykeys.markobosko.org/speechify-keys.js" defer></script>
  *
  * It does nothing until Speechify's side player is on the page, and never takes a key while you type
  * in a field or hold a modifier, so Space still scrolls and types everywhere else.

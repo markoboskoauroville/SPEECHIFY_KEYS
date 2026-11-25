@@ -1,11 +1,11 @@
 # TAKEOVER
 
-**State 20.10.2026:** v1 live at https://speechifykeys.pages.dev, all five keys tested in Chrome with real key presses on
+**State 20.10.2026:** v1 live at https://speechifykeys.markobosko.org, all five keys tested in Chrome with real key presses on
 the demo page (Speechify 14.12, sound on BlackHole): Space played and paused without scrolling, → moved forward a
 sentence twice, ← moved back one, Escape turned Speechify off for the session.
 
 **v2 (20.10.2026):** a click on text makes Speechify read from the start of that sentence. Tested with real clicks on
-markoboskopec.pages.dev: paused, it started at the clicked sentence; while reading, it jumped to the clicked one; Space
+pec.markobosko.org: paused, it started at the clicked sentence; while reading, it jumped to the clicked one; Space
 still pauses. Marko: *"Speechify is reading selected text, not where my mouse is ... register clicks and then jump to
 that position by any tricks"*.
 
